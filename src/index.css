@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.btn_Bleu{
+@apply bg-Deep_Blue rounded-md  text-my_whitee font-cairo text-lg shadow-md px-5 py-1 hover:bg-my_yellow hover:text-Deep_Blue
+}
+.btn_Yellow{
+@apply bg-my_yellow text-Deep_Blue font-cairo text-lg shadow-md px-5 py-1 hover:bg-Deep_Blue rounded-md  hover:text-my_whitee
+}
+.inputStyle{
+@apply text-Deep_Blue font-cairo border-2 border-light_Blue rounded-md shadow-sm
+}
