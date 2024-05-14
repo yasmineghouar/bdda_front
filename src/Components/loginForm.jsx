@@ -1,51 +1,86 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function LoginForm() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log(email);
+        console.log(password);
+        
+        try {
+            const response = await fetch("https://8d1c-105-235-128-94.ngrok-free.app/account/login/", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json' // Spécifiez le type de contenu JSON
+                    
+                },
+                body: JSON.stringify({ // Formattez correctement le corps de la requête
+                    email: email,
+                    password: password // Votre backend semble utiliser "motDePasse" pour le mot de passe
+                })
+            });
+          
+            const data = await response.json();
+            console.log(data);
 
-        // Envoi des données de connexion au backend
-        // fetch('http://127.0.0.1:8000/login', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         email: username,
-        //         password: password,
-        //     }),
-        // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     // Vérification de la réponse
-            //     if (data.token) {
-            //         // Enregistrement du token dans le localStorage
-            //         localStorage.setItem('token', data.token);
-            //         localStorage.setItem('signup', true );
-            //         // Redirection vers la page d'accueil ou autre page souhaitée
-            //         window.location.href = '/';
-            //     } else {
-            //         // Affichage d'un message d'erreur si le token est absent
-            //         console.error('Token is missing');
-            //     }
-            // })
-            // .catch(error => {
-            //     console.error('Error logging in:', error);
-            // });
+            // Si response.ok est vrai, la réponse HTTP est dans la plage 200-299
+            if (response.ok) {
+                console.log('Login successful');
+                window.location.href = '/'; // Redirigez l'utilisateur vers la page d'accueil
+            } else {
+                console.error('Login failed:', data.error); // Affichez un message d'erreur en cas d'échec de connexion
+            }
+          
+            // Effacer les champs du formulaire après soumission
+            setEmail('');
+            setPassword('');
+        } catch (error) {
+            console.error('Error logging in:', error);
+        }
     };
+// ---------------------- Old ---------------------------- //
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     try {
+    //         // Sending login data to the backend
+    //         const response = await axios.get('http://55dd-154-121-110-77.ngrok-free.app/ords/ecom/customer/login', {
+    //             email: email,
+    //             password: password,
+    //         });
+
+    //         const data = response.data;
+
+    //         // Checking the response
+    //         if (data.items.length !== 0) {
+    //             // Storing the token in localStorage
+    //             localStorage.setItem('userId', data.items.id);
+    //             localStorage.setItem('signup', true);
+    //             // Redirecting to the homepage or other desired page
+    //             window.location.href = '/';
+    //         } else {
+    //             // Displaying an error message if the token is absent
+    //             console.error('Incorrect email or password');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error logging in:', error);
+    //     }
+    // };
+
+// ------------------------------------------------------ //
 
     return (
         <div className="card border" style={{ border: '2px solid #392E2C', height: '60vh', width: '55%', marginLeft: '23%', marginTop: '4%', marginBottom: '5%', borderRadius: '5px'}}>
             <div className="card-body text-center bg-danger" style={{ width: '40%', height: '70%', marginTop: '5%', marginLeft: '25%', marginBottom : "5%" }}>
                 <h5 className="card-title text-center" style={{ fontFamily: 'montserrat', fontWeight: 'bold', fontSize: '32px', color: '#392E2C', marginBottom: '18%', marginLeft: '20%' }}>Welcome Back !</h5>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <div className="form-group">
                         <input
-                            type="text"
+                            type="text" required
                             className="form-control"
                             style={{
                                 border: '1.5px solid #392E2C',
@@ -56,14 +91,14 @@ export default function LoginForm() {
                                 borderRadius: '5px',
                                 fontFamily: "montserrat"
                             }}
-                            placeholder= "   Username / Email address"
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
+                            placeholder= "   Email address"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
-                        <input
-                            type="password"
+                    <input
+                            type="password" required
                             className="form-control"
                             style={{
                                 border: '1.5px solid #392E2C',
@@ -93,7 +128,7 @@ export default function LoginForm() {
                             width: '140%',
                             height: '6vh'
                         }}
-                        onClick={() => {window.location.href = "/listeProducts"}}
+                        onClick={handleSubmit}
                     >
                         Login now
                     </button>
@@ -107,3 +142,8 @@ export default function LoginForm() {
         </div>
     );
 }
+
+
+
+
+
