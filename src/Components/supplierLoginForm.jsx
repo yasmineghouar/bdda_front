@@ -1,56 +1,49 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import integrationURL from '../config';
 
-export default function LoginForm() {
+export default function SupplierLoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loginError, setLoginError] = useState(false);
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(email);
         console.log(password);
-        
         try {
-            const response = await fetch(`${integrationURL}/ords/ecom/customer/login`, {
+            const response = await fetch(`${integrationURL}/ords/ecom/supplier/login?email=${email}&password=${password}`, {
                 method: "GET",
                 headers: {
                     "ngrok-skip-browser-warning": "69420",
-                    email: email,
-                    password: password, 
-                    
                 },
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log(data); 
-                
+                console.log(data);
                 if (data.items.length > 0) {
                     console.log('Login successful');
-                    localStorage.setItem('userId', data.items[0].id);
-                    console.log(localStorage.getItem('userId'));
-                    window.location.href = '/'; 
+                    const supplierId = data.items[0].id;
+                    console.log("supp id : ");
+                    console.log(supplierId);
+                    localStorage.setItem('supplierId', supplierId); // Stocker le supplierId dans le Local Storage
+                   window.location.href = '/supplier/products'; // Redirect the user to the homepage
                 } else {
-                    console.log('Login failed:');
-                    setLoginError(true); 
+                    console.log('Login failed: Incorrect email or password');
                 }
             } else {
-                console.error('Login failed:', response.statusText); // Afficher le message d'erreur de la réponse
+                console.error('Login failed:', response.statusText);
             }
             setEmail('');
             setPassword('');
-
         } catch (error) {
             console.error('Error logging in:', error);
         }
-    };    
+    };
 
     return (
         <div className="card border" style={{ border: '2px solid #392E2C', height: '60vh', width: '55%', marginLeft: '23%', marginTop: '4%', marginBottom: '5%', borderRadius: '5px'}}>
             <div className="card-body text-center bg-danger" style={{ width: '40%', height: '70%', marginTop: '5%', marginLeft: '25%', marginBottom : "5%" }}>
-                <h5 className="card-title text-center" style={{ fontFamily: 'montserrat', fontWeight: 'bold', fontSize: '32px', color: '#392E2C', marginBottom: '18%', marginLeft: '20%' }}>Welcome Back !</h5>
+                <h5 className="card-title text-center" style={{ fontFamily: 'montserrat', fontWeight: 'bold', fontSize: '32px', color: '#392E2C', marginBottom: '18%', marginLeft: '20%' }}>LogIn as a supplier!</h5>
                 <form>
                     <div className="form-group">
                         <input
@@ -65,13 +58,13 @@ export default function LoginForm() {
                                 borderRadius: '5px',
                                 fontFamily: "montserrat"
                             }}
-                            placeholder= "   Email address"
+                            placeholder="   Email address"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
-                    <input
+                        <input
                             type="password" required
                             className="form-control"
                             style={{
@@ -87,9 +80,6 @@ export default function LoginForm() {
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                         />
-                        {loginError && ( // Afficher le message d'erreur uniquement si loginError est vrai
-                            <p style={{ color: 'red', marginLeft: '-20%', fontFamily: 'montserrat' }}>Invalid email or password.</p>
-                        )}
                     </div>
                     <button
                         type="submit"
@@ -107,20 +97,15 @@ export default function LoginForm() {
                         }}
                         onClick={handleSubmit}
                     >
-                        Login now
+                        Login 
                     </button>
                 </form>
-                <div className="text-center mt-3 mb-4" style={{ color: '#392E2C', fontFamily: 'montserrat', marginTop: "8%", marginLeft: "18%" }}>
-                    <Link to="/signup" style={{ textDecoration: "none"}}>
-                        Don't have an account? <span style={{ color: "#B39188", textDecoration: "underline" , fontWeight: "bold"}}>Sign Up</span>
+                <div className="text-center mt-3 mb-4" style={{ color: '#392E2C', fontFamily: 'montserrat', marginTop: "10%", marginLeft: "18%" }}>
+                    <Link to="/supplier/signup" style={{ textDecoration: "none"}}>
+                        Don't have a supplier account? <span style={{ color: "#B39188", textDecoration: "underline" , fontWeight: "bold"}}>Sign Up</span>
                     </Link>
                 </div>
             </div>
         </div>
     );
 }
-
-
-
-
-

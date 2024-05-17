@@ -5,6 +5,7 @@ import Products from '../Components/products';
 import Header from '../Components/header'
 import Menu2 from '../Components/menuPrincipale2'
 import Menu from '../Components/menuPrncipale'
+import useAuth from '../hooks/useAuth';
 
 export default function ListeProducts() {
   return (

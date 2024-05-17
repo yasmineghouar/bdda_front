@@ -17,7 +17,7 @@ export default function WelcomeSection() {
        
         
         <button className="px-6 py-3 bg-brown font-bold rounded-md border border-brown hover:bg-opacity-75 focus:outline-none" style={{backgroundColor:"#B39188"}}
-          onClick={() => {window.location.href = "/login"}}
+          onClick={() => {window.location.href = "/listeProducts"}}
           >
           Shop Now
         </button>

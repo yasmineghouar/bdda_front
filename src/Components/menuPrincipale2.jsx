@@ -9,7 +9,7 @@ export default function menuPrincipal2() {
       <Link to="#" className="mr-4 text-base font-medium  text-B39188 ml-10" style={{fontFamily: 'montserrat', color:'#955149'}}>Contact</Link>
    
       <Link to="#" className="mr-4 text-base font-medium font-montserrat text-B39188 ml-10" style={{fontFamily: 'montserrat', color:'#955149'}}>About us</Link>
-      <Link to="#" className="mr-4 text-base font-medium font-montserrat text-B39188 ml-10" style={{fontFamily: 'montserrat', color:'#955149'}}>Blog</Link>
+      <Link to="/supplier/login" className="mr-4 text-base font-medium font-montserrat text-B39188 ml-10" style={{fontFamily: 'montserrat', color:'#955149'}}>Supplier Area</Link>
     </div>
   );
 }

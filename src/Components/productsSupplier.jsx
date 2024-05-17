@@ -93,8 +93,8 @@ const fetchProducts = async () => {
     }
 };
 
-export default function Products() {
-    useAuth();
+export default function ProductsSupplier() {
+
     const [productList, setProductList] = useState([]); 
     const [categories, setCategories] = useState([]);
 
@@ -151,14 +151,14 @@ export default function Products() {
             <div className="flex flex-wrap justify-start items-start w-full px-4 py-2" style={{ marginTop: '4%' }}>
                 {productList.map(product => (
                     <div key={product.id} className="product-item" style={{ width: 'calc(25% - 20px)', marginBottom: '20px', marginLeft: '10px', marginRight: '10px' }}>
-                        <Link to={`/Product/${product.id}`}>
+                        {/* <Link to={`/Product/${product.id}`}> */}
                             <img src={product.imageUrl} alt={product.title} style={{ width: '90%', borderRadius: '5px', border: '1px solid #392E2C', padding: '10px' }}/>
-                        </Link>
+                        {/* </Link> */}
                         <div style={{ textAlign: 'center', marginTop: '10px', marginBottom: '4%', color: '#392E2C', fontFamily: "montserrat" }}>
                             {/* <h3>{product.title}</h3> */}
-                            <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: '#392E2C' }}>{/* Link to product detail page */}
+                            {/* <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: '#392E2C' }}>Link to product detail page */}
                                 <h3>{product.title}</h3>
-                            </Link>
+                            {/* </Link> */}
                             <p>{product.price} $</p>
                         </div>
                     </div> 

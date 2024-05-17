@@ -7,7 +7,9 @@ import RegisterPage from './Pages/registerPage'
 import LoginPage from './Pages/loginPage'
 import ListeProducts from './Pages/listeProducts'
 import Panier from './Pages/panier'
-
+import SupplierSignupPage from './Pages/suppliersignuppage'
+import LoginSupPage from './Pages/supplierloginpage'
+import ListeSupplierProducts from './Pages/listeProductsSupplier'
 
 function App() {
   return (
@@ -21,6 +23,9 @@ function App() {
           <Route path="/signup" element={<RegisterPage />} />
           <Route path="/listeProducts" element={<ListeProducts />} />
           <Route path="/panier" element={<Panier />} />
+          <Route path="/supplier/signup" element={<SupplierSignupPage />} />
+          <Route path="/supplier/login" element={<LoginSupPage/>} />
+          <Route path="/supplier/products" element={<ListeSupplierProducts/>} />
         </Routes>
       </Router>
     </div>
