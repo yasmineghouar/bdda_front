@@ -13,6 +13,8 @@ export default function homePage() {
    <Menu/>
    <Menu2/>
     <Welcome/>
+
+   
     <Menu2/>
    </div>
    

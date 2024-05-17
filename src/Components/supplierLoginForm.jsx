@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
-export default function LoginForm() {
+export default function SupplierLoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -11,69 +10,39 @@ export default function LoginForm() {
         console.log(email);
         console.log(password);
         try {
-        const response = await fetch("https://988a-105-235-133-172.ngrok-free.app/ords/ecom/customer/login", {
-        method: "GET",
-        headers: {
-        "ngrok-skip-browser-warning": "69420",
-        email: email,
-        password: password,
-        },
-        });
-        if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        if (data.items.length > 0) {
-        console.log('Login successful');
-        const userId = data.items[0].id; 
-        window.location.href = '/'; // Rediriger l'utilisateur vers la page d'accueil
-        } else {
-        console.log('Login failed:');
-        }
-        } else {
-        console.error('Login failed:', response.statusText); // Afficher le message d'erreur de la réponse
-        }
-        setEmail('');
-        setPassword('');
-        
+            const response = await fetch(`https://988a-105-235-133-172.ngrok-free.app/ords/ecom/supplier/login?email=${email}&password=${password}`, {
+                method: "GET",
+                headers: {
+                    "ngrok-skip-browser-warning": "69420",
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                if (data.items.length > 0) {
+                    console.log('Login successful');
+                    const supplierId = data.items[0].id;
+                    console.log("supp id : ");
+                    console.log(supplierId);
+                    localStorage.setItem('supplierId', supplierId); // Stocker le supplierId dans le Local Storage
+                   window.location.href = '/supplier/products'; // Redirect the user to the homepage
+                } else {
+                    console.log('Login failed: Incorrect email or password');
+                }
+            } else {
+                console.error('Login failed:', response.statusText);
+            }
+            setEmail('');
+            setPassword('');
         } catch (error) {
-        console.error('Error logging in:', error);
+            console.error('Error logging in:', error);
         }
-        }; 
-// ---------------------- Old ---------------------------- //
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-
-    //     try {
-    //         // Sending login data to the backend
-    //         const response = await axios.get('http://55dd-154-121-110-77.ngrok-free.app/ords/ecom/customer/login', {
-    //             email: email,
-    //             password: password,
-    //         });
-
-    //         const data = response.data;
-
-    //         // Checking the response
-    //         if (data.items.length !== 0) {
-    //             // Storing the token in localStorage
-    //             localStorage.setItem('userId', data.items.id);
-    //             localStorage.setItem('signup', true);
-    //             // Redirecting to the homepage or other desired page
-    //             window.location.href = '/';
-    //         } else {
-    //             // Displaying an error message if the token is absent
-    //             console.error('Incorrect email or password');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error logging in:', error);
-    //     }
-    // };
-
-// ------------------------------------------------------ //
+    };
 
     return (
         <div className="card border" style={{ border: '2px solid #392E2C', height: '60vh', width: '55%', marginLeft: '23%', marginTop: '4%', marginBottom: '5%', borderRadius: '5px'}}>
             <div className="card-body text-center bg-danger" style={{ width: '40%', height: '70%', marginTop: '5%', marginLeft: '25%', marginBottom : "5%" }}>
-                <h5 className="card-title text-center" style={{ fontFamily: 'montserrat', fontWeight: 'bold', fontSize: '32px', color: '#392E2C', marginBottom: '18%', marginLeft: '20%' }}>Welcome Back !</h5>
+                <h5 className="card-title text-center" style={{ fontFamily: 'montserrat', fontWeight: 'bold', fontSize: '32px', color: '#392E2C', marginBottom: '18%', marginLeft: '20%' }}>LogIn as a supplier!</h5>
                 <form>
                     <div className="form-group">
                         <input
@@ -88,13 +57,13 @@ export default function LoginForm() {
                                 borderRadius: '5px',
                                 fontFamily: "montserrat"
                             }}
-                            placeholder= "   Email address"
+                            placeholder="   Email address"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
-                    <input
+                        <input
                             type="password" required
                             className="form-control"
                             style={{
@@ -127,20 +96,15 @@ export default function LoginForm() {
                         }}
                         onClick={handleSubmit}
                     >
-                        Login now
+                        Login 
                     </button>
                 </form>
-                <div className="text-center mt-3 mb-4" style={{ color: '#392E2C', fontFamily: 'montserrat', marginTop: "8%", marginLeft: "18%" }}>
-                    <Link to="/signup" style={{ textDecoration: "none"}}>
-                        Don't have an account? <span style={{ color: "#B39188", textDecoration: "underline" , fontWeight: "bold"}}>Sign Up</span>
+                <div className="text-center mt-3 mb-4" style={{ color: '#392E2C', fontFamily: 'montserrat', marginTop: "10%", marginLeft: "18%" }}>
+                    <Link to="/supplier/signup" style={{ textDecoration: "none"}}>
+                        Don't have a supplier account? <span style={{ color: "#B39188", textDecoration: "underline" , fontWeight: "bold"}}>Sign Up</span>
                     </Link>
                 </div>
             </div>
         </div>
     );
 }
-
-
-
-
-
